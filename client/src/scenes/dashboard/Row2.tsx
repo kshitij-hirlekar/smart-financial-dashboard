@@ -4,22 +4,9 @@ import FlexBetween from "@/components/FlexBetween";
 import { useGetKpisQuery, useGetProductsQuery } from "@/state/api";
 import { Box, Typography, useTheme } from "@mui/material";
 import React, { useMemo } from "react";
-import {
-  Tooltip,
-  CartesianGrid,
-  LineChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
-  ScatterChart,
-  Scatter,
-  ZAxis,
-} from "recharts";
+import { Tooltip, CartesianGrid, LineChart, ResponsiveContainer, XAxis, YAxis, Line, PieChart, Pie, Cell, ScatterChart, Scatter, ZAxis } from "recharts";
 
+// Static data for the campaign target visualization
 const pieData = [
   { name: "Group A", value: 600 },
   { name: "Group B", value: 400 },
@@ -28,9 +15,15 @@ const pieData = [
 const Row2 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[300]];
+
+  // Parallel Data Fetching: RTK Query handles these concurrently for speed
   const { data: operationalData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
 
+  /**
+   * Operational Expenses Transformation
+   * Compares necessary overhead (Operational) vs secondary costs (Non-Operational).
+   */
   const operationalExpenses = useMemo(() => {
     return (
       operationalData &&
@@ -46,6 +39,10 @@ const Row2 = () => {
     );
   }, [operationalData]);
 
+  /**
+   * Product Expense Scatter Data
+   * Correlates Price vs Expense to visualize profit margins per product.
+   */
   const productExpenseData = useMemo(() => {
     return (
       productData &&
@@ -59,8 +56,10 @@ const Row2 = () => {
     );
   }, [productData]);
 
+
   return (
     <>
+    {/* WIDGET D: Dual-Axis Line Chart for Expense Breakdown */}
       <DashboardBox gridArea="d">
         <BoxHeader
           title="Operational vs Non-Operational Expenses"
@@ -112,6 +111,8 @@ const Row2 = () => {
           </LineChart>
         </ResponsiveContainer>
       </DashboardBox>
+
+      {/* WIDGET E: Campaign Goals & Circular Progress */}
       <DashboardBox gridArea="e">
         <BoxHeader title="Campaigns and Targets" sideText="+4%" />
         <FlexBetween mt="0.25rem" gap="1.5rem" pr="1rem">
@@ -159,6 +160,8 @@ const Row2 = () => {
           </Box>
         </FlexBetween>
       </DashboardBox>
+
+      {/* WIDGET F: Scatter Plot for Product Margin Correlation */}
       <DashboardBox gridArea="f">
         <BoxHeader title="Product Prices vs Expenses" sideText="+4%" />
         <ResponsiveContainer width="100%" height="100%">

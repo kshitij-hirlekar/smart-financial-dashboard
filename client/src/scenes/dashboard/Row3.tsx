@@ -11,6 +11,11 @@ import { DataGrid, GridCellParams } from "@mui/x-data-grid";
 import React, { useMemo } from "react";
 import { Cell, Pie, PieChart } from "recharts";
 
+/**
+ * Row3 Component
+ * Displays granular tables (Products/Transactions) and categorical expense breakdowns.
+ * Finalizes the dashboard grid with a summary narrative.
+ */
 const Row3 = () => {
   const { palette } = useTheme();
   const pieColors = [palette.primary[800], palette.primary[500]];
@@ -19,6 +24,10 @@ const Row3 = () => {
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
 
+  /**
+   * Categorical Expense Transformation
+   * Creates a dedicated data array for each category found in 'expensesByCategory'.
+   */
   const pieChartData = useMemo(() => {
     if (kpiData) {
       const totalExpenses = kpiData[0].totalExpenses;
@@ -39,6 +48,7 @@ const Row3 = () => {
     }
   }, [kpiData]);
 
+  // DataGrid Column Definitions - Products
   const productColumns = [
     {
       field: "_id",
@@ -59,6 +69,7 @@ const Row3 = () => {
     },
   ];
 
+  // DataGrid Column Definitions - Transactions
   const transactionColumns = [
     {
       field: "_id",
@@ -87,6 +98,7 @@ const Row3 = () => {
 
   return (
     <>
+    {/* 📋 WIDGET G: Product Inventory Table */}
       <DashboardBox gridArea="g">
         <BoxHeader
           title="List of Products"
@@ -96,21 +108,7 @@ const Row3 = () => {
           mt="0.5rem"
           p="0 0.5rem"
           height="75%"
-          sx={{
-            "& .MuiDataGrid-root": {
-              color: palette.grey[300],
-              border: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: `1px solid ${palette.grey[800]} !important`,
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              borderBottom: `1px solid ${palette.grey[800]} !important`,
-            },
-            "& .MuiDataGrid-columnSeparator": {
-              visibility: "hidden",
-            },
-          }}
+          sx={dataGridStyles(palette)}
         >
           <DataGrid
             columnHeaderHeight={25}
@@ -121,6 +119,8 @@ const Row3 = () => {
           />
         </Box>
       </DashboardBox>
+
+      {/* 📦 WIDGET H: Transaction Audit Trail */}
       <DashboardBox gridArea="h">
         <BoxHeader
           title="Recent Orders"
@@ -130,21 +130,7 @@ const Row3 = () => {
           mt="1rem"
           p="0 0.5rem"
           height="80%"
-          sx={{
-            "& .MuiDataGrid-root": {
-              color: palette.grey[300],
-              border: "none",
-            },
-            "& .MuiDataGrid-cell": {
-              borderBottom: `1px solid ${palette.grey[800]} !important`,
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              borderBottom: `1px solid ${palette.grey[800]} !important`,
-            },
-            "& .MuiDataGrid-columnSeparator": {
-              visibility: "hidden",
-            },
-          }}
+          sx={dataGridStyles(palette)}
         >
           <DataGrid
             columnHeaderHeight={25}
@@ -155,6 +141,8 @@ const Row3 = () => {
           />
         </Box>
       </DashboardBox>
+
+      {/* 🍩 WIDGET I: Expense Distribution by Category */}
       <DashboardBox gridArea="i">
         <BoxHeader title="Expense Breakdown By Category" sideText="+4%" />
         <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem" textAlign="center">
@@ -179,6 +167,8 @@ const Row3 = () => {
           ))}
         </FlexBetween>
       </DashboardBox>
+
+      {/* 📝 WIDGET J: Summary Progress & Analysis */}
       <DashboardBox gridArea="j">
         <BoxHeader
           title="Overall Summary and Explanation Data"
@@ -207,5 +197,16 @@ const Row3 = () => {
     </>
   );
 };
+
+/**
+ * Shared Styles for MUI DataGrid
+ * Centralized for consistency across Product and Transaction tables.
+ */
+const dataGridStyles = (palette: any) => ({
+  "& .MuiDataGrid-root": { color: palette.grey[300], border: "none" },
+  "& .MuiDataGrid-cell": { borderBottom: `1px solid ${palette.grey[800]} !important` },
+  "& .MuiDataGrid-columnHeaders": { borderBottom: `1px solid ${palette.grey[800]} !important` },
+  "& .MuiDataGrid-columnSeparator": { visibility: "hidden" },
+});
 
 export default Row3;

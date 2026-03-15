@@ -1,9 +1,17 @@
+/**
+ * Financial Category Breakdown
+ * Defines specific buckets for expense tracking used in Pie charts.
+ */
 export interface ExpensesByCategory {
   salaries: number;
   supplies: number;
   services: number;
 }
 
+/**
+ * Monthly Financial Snapshot
+ * Used for time-series Line and Bar charts.
+ */
 export interface Month {
   id: string;
   month: string;
@@ -13,6 +21,10 @@ export interface Month {
   operationalExpenses: number;
 }
 
+/**
+ * Daily Financial Snapshot
+ * Used for granular day-to-day tracking.
+ */
 export interface Day {
   id: string;
   date: string;
@@ -20,6 +32,11 @@ export interface Day {
   expenses: number;
 }
 
+/**
+ * KPI API Response Interface
+ * Root object for the dashboard's analytics engine.
+ * Maps directly to the KPI Mongoose model.
+ */
 export interface GetKpisResponse {
   id: string;
   _id: string;
@@ -34,6 +51,10 @@ export interface GetKpisResponse {
   updatedAt: string;
 }
 
+/**
+ * Product API Response Interface
+ * Represents individual items in the inventory.
+ */
 export interface GetProductsResponse {
   id: string;
   _id: string;
@@ -45,6 +66,10 @@ export interface GetProductsResponse {
   updatedAt: string;
 }
 
+/**
+ * Transaction API Response Interface
+ * Represents an individual order/sale event.
+ */
 export interface GetTransactionsResponse {
   id: string;
   _id: string;

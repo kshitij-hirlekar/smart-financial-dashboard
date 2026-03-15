@@ -6,6 +6,10 @@ import FlexBetween from "@/components/FlexBetween";
 
 type Props = {};
 
+/**
+ * Navbar Component
+ * Handles site navigation and branding using Material UI and React Router.
+ */
 const Navbar = (props: Props) => {
   const { palette } = useTheme();
   const [selected, setSelected] = useState("dashboard");
@@ -21,6 +25,7 @@ const Navbar = (props: Props) => {
 
       {/* RIGHT SIDE */}
       <FlexBetween gap="2rem">
+        {/* Dashboard Link Wrapper */}
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
             to="/"
@@ -33,6 +38,8 @@ const Navbar = (props: Props) => {
             dashboard
           </Link>
         </Box>
+
+        {/* Predictions Link Wrapper */}
         <Box sx={{ "&:hover": { color: palette.primary[100] } }}>
           <Link
             to="/predictions"

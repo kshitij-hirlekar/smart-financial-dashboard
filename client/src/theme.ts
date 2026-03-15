@@ -1,4 +1,11 @@
+/**
+ * Color Tokens
+ * A centralized palette of hex codes categorized by functional use.
+ * This allows for easy adjustments to the entire brand identity in one place.
+ */
+
 export const tokens = {
+  // Neutral scales for borders, text variants, and secondary elements
   grey: {
     100: "#f0f0f3",
     200: "#e1e2e7",
@@ -10,6 +17,7 @@ export const tokens = {
     800: "#48494e",
     900: "#242427",
   },
+  // Main brand color: Light Green (Signals growth and financial health)
   primary: {
     // light green
     100: "#d0fcf4",
@@ -22,6 +30,7 @@ export const tokens = {
     800: "#076050",
     900: "#043028",
   },
+  // Accent color: Yellow (Used for targets and highlights)
   secondary: {
     // yellow
     100: "#fcf0dd",
@@ -34,17 +43,22 @@ export const tokens = {
     800: "#614822",
     900: "#302411",
   },
+  // Special utility color: Purple (Used for regression/prediction lines)
   tertiary: {
     // purple
     500: "#8884d8",
   },
+  // Dark mode background colors
   background: {
     light: "#2d2d34",
     main: "#1f2026",
   },
 };
 
-// mui theme settings
+/**
+ * Material UI Theme Configuration
+ * Defines the palette, typography, and component overrides.
+ */
 export const themeSettings = {
   palette: {
     primary: {
@@ -68,6 +82,7 @@ export const themeSettings = {
       light: tokens.background.light,
     },
   },
+  // Typography Scale: Ensures consistent sizing and weights for headers
   typography: {
     fontFamily: ["Inter", "sans-serif"].join(","),
     fontSize: 12,

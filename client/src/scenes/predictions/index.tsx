@@ -3,40 +3,42 @@ import FlexBetween from "@/components/FlexBetween";
 import { useGetKpisQuery } from "@/state/api";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import React, { useMemo, useState } from "react";
-import {
-  CartesianGrid,
-  Label,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import regression, { DataPoint } from "regression";
 
+/**
+ * Predictions Component
+ * Uses a Linear Regression algorithm to forecast future revenue 
+ * based on historical month-over-month data.
+ */
 const Predictions = () => {
   const { palette } = useTheme();
   const [isPredictions, setIsPredictions] = useState(false);
   const { data: kpiData } = useGetKpisQuery();
 
+  /**
+   * Data Transformation & Regression Logic
+   * Calculates a line of best fit using the 'regression' library.
+   */
   const formattedData = useMemo(() => {
     if (!kpiData) return [];
     const monthData = kpiData[0].monthlyData;
 
+    // Convert historical data into [x, y] coordinates for the algorithm
     const formatted: Array<DataPoint> = monthData.map(
-      ({ revenue }, i: number) => {
-        return [i, revenue];
-      }
+      ({ revenue }, i: number) => [i, revenue]
     );
+
+    // Generate the Linear Regression model
     const regressionLine = regression.linear(formatted);
 
     return monthData.map(({ month, revenue }, i: number) => {
       return {
         name: month,
         "Actual Revenue": revenue,
+        // The point on the line of best fit for the current month
         "Regression Line": regressionLine.points[i][1],
+        // Predicting the value 12 months into the future
         "Predicted Revenue": regressionLine.predict(i + 12)[1],
       };
     });
@@ -92,6 +94,8 @@ const Predictions = () => {
           </YAxis>
           <Tooltip />
           <Legend verticalAlign="top" />
+          
+          {/* Historical Data: Plotted as Dots */}
           <Line
             type="monotone"
             dataKey="Actual Revenue"
@@ -99,12 +103,16 @@ const Predictions = () => {
             strokeWidth={0}
             dot={{ strokeWidth: 5 }}
           />
+
+          {/* Line of Best Fit: Shows general trend */}
           <Line
             type="monotone"
             dataKey="Regression Line"
             stroke="#8884d8"
             dot={false}
           />
+
+          {/* Forecasted Data: Dashed line triggered by state */}
           {isPredictions && (
             <Line
               strokeDasharray="5 5"
