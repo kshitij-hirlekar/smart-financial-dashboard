@@ -9,6 +9,7 @@ Inventory & Order Tracking: Detailed data grids for product management and trans
 Secure Data Layer: Enterprise-level schema design utilizing mongoose-currency to ensure financial precision and prevent floating-point errors.
 
 🏗️ Technical Architecture
+
 Backend (Node.js & Express)
 Model-View-Controller (MVC) Pattern: Strictly separated concerns for maintainability.
 Database: MongoDB Atlas utilizing Document Embedding for high-read performance of KPI data.
